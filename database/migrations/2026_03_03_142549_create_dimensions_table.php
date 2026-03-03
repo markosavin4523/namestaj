@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dimensions', function (Blueprint $table) {
             $table->id();
             $table->integer('height');
-            $table->integer('widht');
+            $table->integer('width');
             $table->integer('depth');
 
 

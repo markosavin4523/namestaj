@@ -18,6 +18,11 @@ return new class extends Migration
             $table->boolean('is_primary')->default(false);
 
             $table->foreignId('product_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignId('category_id')
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table->timestamps();

@@ -4,6 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -18,7 +21,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'firs_name',
+        'last_name',
+        'username',
+        'status',
+        'role_id',
         'email',
         'password',
     ];
@@ -32,7 +39,32 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    public function role() : BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function info(): HasOne
+    {
+       return $this->hasOne(UserInfo::class);
+    }
 
+    // one to many relations
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+    public function carts(): HasMany
+    {
+        return $this->hasMany(Cart::class);
+    }
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
     /**
      * Get the attributes that should be cast.
      *

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('description');
             $table->float('discount')->default(0);
+            $table->integer('quantity');
 
             $table->foreignid('category_id')
                 ->constrained()
