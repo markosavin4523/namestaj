@@ -9,9 +9,10 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
+
     public function index(){
         $categories  = Category::all();
-        return view('layout.layout',compact('categories'));
+
     }
 
 }
