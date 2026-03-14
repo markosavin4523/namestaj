@@ -1,0 +1,41 @@
+.nav {
+    position: static !important;
+}
+.megamenu-block {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: white;
+    z-index: 1000;
+    display: none;
+    transition: all 0.3s ease;
+}
+.has-megamenu {
+    &:hover {
+        .megamenu-block {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+        }
+        .nav-link {
+            color: $primary-color !important;
+        }
+    }
+}
+#header_dropDown_profileMenu{
+    z-index: 1002;
+    list-style: none;
+    width: 150px;
+    margin-top: 15px;
+    margin-left: -30px;
+    li{
+        padding: 10px 5px;
+        &:hover{
+            background-color: rgba($primary-color,0.1);
+        }
+    }
+}
+
+

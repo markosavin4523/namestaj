@@ -1,0 +1,6 @@
+.btnUnderline{
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+}

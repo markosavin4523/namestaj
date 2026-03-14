@@ -1,49 +1,80 @@
-
-<!-- HEADER -->
-<header class="border-bottom shadow-sm bg-white">
-    <!-- Gornji red: Logo - Search - Ikonice -->
+<div class="container-fluid bg-primary-color">
+    <div class="container d-flex justify-content-end">
+        <a href="{{ route("contact.index")  }}" class="text-white me-3">Kontakt</a>
+        <a href="{{ route("author.index")  }}" class="text-white">Autor</a>
+    </div>
+</div>
+<header class="border-bottom  bg-white position-sticky sticky-top">
     <div class="container py-2">
-        <div class="row align-items-center g-2">
-            <!-- Logo levo, uvek vidljiv -->
-            <div class="col-auto">
-                <a class="navbar-brand fw-bold text-black" href="#">
-                    <img src="logo.png" alt="Logo" width="40" height="40">
+        <div class="d-flex justify-content-between align-items-center gap-4">
+
+            <div class="d-flex align-items-center flex-row flex-shrink-0">
+                <button class="btn d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategories">
+                    <i class="bi bi-list fs-3"></i>
+                </button>
+                <a href="{{ route('home.index') }}">
+                    <h1 class="m-0 fs-2 fw-bold text-black">Opremi<span class="primary-color">Stan</span>.rs</h1>
                 </a>
             </div>
-            <!-- Search input centriran, širi maksimalno koliko može-->
-            <div class="col d-flex justify-content-center">
-                <form class="w-100" style="max-width:400px;">
-                    <input type="search" class="form-control" placeholder="Pretraga...">
-                </form>
+            <div class="flex-grow-1 d-none d-md-flex justify-content-center" style="max-width: 600px;">
+                <x-products.search-container/>
             </div>
-            <!-- Ikonice desno -->
-            <div class="col-auto d-flex align-items-center gap-3 text-black fs-4">
-                <a href="#" title="Lajkovano"><i class="bi bi-heart"></i></a>
-                <a href="#"  title="Profil"><i class="bi bi-person"></i></a>
-                <a href="#" title="Korpa"><i class="bi bi-cart"></i></a>
+
+            <div class="d-flex align-items-center gap-3 flex-shrink-0">
+                <a href="{{ route('like.index') }}" class="text-black fs-4" title="Lajkovano"><i class="bi bi-heart"></i></a>
+                <a href="{{ route('cart.index') }}" class="text-black fs-4" title="Korpa"><i class="bi bi-cart"></i></a>
+                @if (Auth::check())
+                    <div class="position-relative">
+                        <p class="m-0 btnUnderline" id="header_username">
+                            {{ Auth::user()->username }}
+                            <i class="bi bi-chevron-down ms-1" id="header_arrow"></i>
+                        </p>
+                        <ul class="position-absolute top-100 start-0 p-0 border bg-white" id="header_dropDown_profileMenu" style="display:none;">
+                            <li><a href="">Moj profil</a></li>
+                            <li><a href="">Moje porudzbine</a></li>
+                            <li>
+                                <form action="{{ route("logout") }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <a href="{{ route('login.index') }}" class="text-black fs-4" title="Profil"><i class="bi bi-person"></i></a>
+                @endif
             </div>
         </div>
     </div>
-    <!-- Donji red: Navigacija sa kategorijama, hamburger za mobilni -->
     <div class="border-top">
         <div class="container">
-            <nav class="py-1 d-flex justify-content-center align-items-center">
-                <!-- Hamburger za male ekrane (d-md-none = samo mobil/tablet) -->
-                <button class="btn d-md-none px-2 py-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategories">
-                    <i class="bi bi-list fs-3"></i>
-                </button>
-                <!-- Kategorije za desktop (d-none d-md-flex = skrivene na mobilu, prikazane na >=md) -->
-                <ul class="nav gap-3 mx-auto d-none d-md-flex">
-                    <li class="nav-item"><a class="nav-link text-black px-2" href="#">Kategorija 1</a></li>
-                    <li class="nav-item"><a class="nav-link text-black px-2" href="#">Kategorija 2</a></li>
-                    <li class="nav-item"><a class="nav-link text-black px-2" href="#">Kategorija 3</a></li>
-                    <li class="nav-item"><a class="nav-link text-black px-2" href="#">Kategorija 4</a></li>
+            <nav class="d-flex justify-content-center align-items-center">
+                <div class="flex-grow-1 d-flex d-md-none justify-content-center" style="max-width: 600px;">
+                    <x-products.search-container/>
+                </div>
+
+                <ul class="nav gap-3 mx-auto d-none d-md-flex position-static">
+                    @foreach($categories as $cat)
+                        <li class="nav-item has-megamenu">
+                            <a class="nav-link text-black px-2" href="{{ route("category.index",['category'=>$cat->slug]) }}">{{ $cat->name }}</a>
+                            <div class="megamenu-block border-top border-bottom">
+                                <div class="container">
+                                    <div class="row py-4">
+                                        @foreach($cat->children as $sub)
+                                            <div class="col-md-3">
+                                                <a class="btnUnderline text-black fws-bold" href="{{ route("category.index",['category'=>$cat->slug, 'subcategory'=>$sub->slug]) }}">{{ $sub->name }}</a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
                 </ul>
             </nav>
         </div>
     </div>
 </header>
-<!-- Offcanvas meni za mobilne, sa leve strane -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasCategories" aria-labelledby="offcanvasCategoriesLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasCategoriesLabel">Kategorije</h5>
@@ -51,10 +82,9 @@
     </div>
     <div class="offcanvas-body">
         <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a class="nav-link" href="#">Kategorija 1</a></li>
-            <li class="nav-item mb-2"><a class="nav-link" href="#">Kategorija 2</a></li>
-            <li class="nav-item mb-2"><a class="nav-link" href="#">Kategorija 3</a></li>
-            <li class="nav-item mb-2"><a class="nav-link" href="#">Kategorija 4</a></li>
+            @foreach($categories as $cat)
+                <li class="nav-item mb-2"><a class="nav-link text-black px-2" href="{{ route("category.index",["category" => "$cat->slug"])  }}">{{ $cat->name }}</a></li>
+            @endforeach
         </ul>
     </div>
 </div>
