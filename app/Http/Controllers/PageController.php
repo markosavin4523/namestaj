@@ -18,6 +18,6 @@ class PageController extends Controller
     public function profilePage(){
         $user = auth()->user();
         $data['user'] = $user;
-        return view('user.my-profile',$data);
+        return view('user.account.my-profile',$data);
     }
 }

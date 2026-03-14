@@ -30,7 +30,7 @@
                             <i class="bi bi-chevron-down ms-1" id="header_arrow"></i>
                         </p>
                         <ul class="position-absolute top-100 start-0 p-0 border bg-white" id="header_dropDown_profileMenu" style="display:none;">
-                            <li><a href="">Moj profil</a></li>
+                            <li><a href="{{ route('my-profile.index')  }}">Moj profil</a></li>
                             <li><a href="">Moje porudzbine</a></li>
                             <li>
                                 <form action="{{ route("logout") }}" method="POST">
@@ -41,7 +41,7 @@
                         </ul>
                     </div>
                 @else
-                    <a href="{{ route('login.index') }}" class="text-black fs-4" title="Profil"><i class="bi bi-person"></i></a>
+                    <a href="{{ route('login') }}" class="text-black fs-4" title="Profil"><i class="bi bi-person"></i></a>
                 @endif
             </div>
         </div>

@@ -29,7 +29,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->back()->with('success', 'Uspešno ste se odjavili!');
+        return redirect()->route('home.index')->with('success', 'Uspešno ste se odjavili!');
     }
     public function register(RegisterRequest $request)
     {
