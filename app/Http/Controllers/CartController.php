@@ -2,16 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $data = [];
+
     public function index()
     {
-        return view('products.cart');
+        $user = auth()->user();
+        if ($user) {
+            $cart= $user->carts()->with('products.images', 'products.prices')->first();
+            $products = $cart ? $cart->products : [];
+            $cartPrice =$cart ? $cart->totalPrice() : 0;
+
+        }
+        else {
+
+            $cart = session()->get('cart', []);
+            $productIds = array_keys($cart);
+
+            $products = Product::whereIn('id', $productIds)->with(['images', 'prices'])->get();
+            $cartPrice = 0;
+            foreach ($products as $product) {
+                $quantity = $cart[$product->id]['quantity'] ?? 0;
+                $price = $product->prices()->first()->value ?? 0;
+                $cartPrice += $price * $quantity;
+            }
+        }
+        $data['cart'] = $cart;
+        $data['products'] = $products;
+        $data['cartPrice'] = $cartPrice;
+        return view('products.cart',$data);
     }
 
     /**
@@ -25,9 +49,57 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, int $id)
     {
-        //
+        $user = auth()->user();
+        $product = Product::findOrFail($id);
+        $quantity = $request->quantity;
+
+        if ($user){
+            if ($user->carts()->first())
+            {
+                $cart = $user->carts()->first();
+            }
+            else
+            {
+                $cart = new Cart();
+                $cart->user_id = $user->id;
+                $cart->save();
+            }
+            if ($cart->products()->where('product_id', $product->id)->first())
+            {
+                $quantity = $cart->products()->where('product_id', $product->id)->first()->pivot->quantity + $quantity;
+                $cart->products()->updateExistingPivot($id, [
+                    'quantity' => $quantity
+                ]);
+            }
+            else{
+                $cart->products()->attach($product->id, ['quantity' => $quantity]);
+
+            }
+            $count = $cart->products()->count();
+        }
+        else{
+            $sessionCart = session()->get('cart', []);
+            if (isset($sessionCart[$product->id])) {
+                $sessionCart[$product->id]['quantity'] += $quantity;
+            } else {
+                $sessionCart[$product->id] = [
+                    'quantity' => $quantity
+                ];
+            }
+
+            session()->put('cart', $sessionCart);
+            $count = count($sessionCart);
+        }
+
+
+    return response()->json([
+        'success'=>'Dodali ste proizvod u korpu',
+        'count'=>$count,
+        'message'=>'Dodali ste proizvod u korpu'
+    ]);
+
     }
 
     /**
@@ -57,8 +129,21 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $user = auth()->user();
+        if ($user){
+            $cart = $user->carts()->first();
+            $product= $cart->products()->where('product_id', $id)->first();
+            $cart->products()->detach($product->id);
+        }
+        else{
+            $cart = session()->get('cart', []);
+            if (isset($cart[$id])) {
+                unset($cart[$id]);
+                session()->put('cart', $cart);
+            }
+        }
+        return redirect()->back()->with('success', 'Uspesno ste uklonili proizvod iz korpe!');
     }
 }

@@ -1,0 +1,22 @@
+.showProduct_images_img{
+        background-position: center;
+        background-size: cover;
+        border: 1px solid white;
+        aspect-ratio: 1/1;
+
+}
+.showProduct_other_images{
+    flex-wrap: nowrap;
+    &_img{
+        background-position: center;
+        background-size: cover;
+        border: 1px solid #f1f1f1;
+        flex: 0 1 150px;
+        width: 150px;
+        aspect-ratio: 1/1;  /* Forsira kvadrat bez obzira na sve */
+
+        min-width: 0;
+
+    }
+
+}

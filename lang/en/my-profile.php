@@ -5,18 +5,18 @@ return [
     'cards'=>[
         [
             'name'=>'Podaci o nalogu',
-            'icon'=>'bi bi-person',
-            'route'=>'profile-required.index',
+            'icon'=>'bi bi-person-circle',
+            'route'=>'profile-required.edit',
         ],
         [
             'name'=>'Licni podaci',
             'icon'=>'bi bi-person',
-            'route'=>'profile-personal.index',
+            'route'=>'profile-personal.edit',
         ],
         [
             'name'=>'Lozinka',
-            'icon'=>'bi bi-asterisk',
-            'route'=>'profile-password.index',
+            'icon'=>'bi bi-lock',
+            'route'=>'profile-password.edit',
         ],
         [
             'name'=>'Poruzbine',

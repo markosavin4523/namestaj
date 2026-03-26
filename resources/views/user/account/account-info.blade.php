@@ -1,12 +1,11 @@
 @extends('layout.layout')
 @section('content')
     <div class="container pt-2 row m-auto">
-        <div class="col-12 col-lg-3">
-            <div class="bg-white-color p-5">
-
-            </div>
+        <x-pages.title title="POdaci korisnickog naloga"/>
+        <div class="col-12 col-lg-3 p-2">
+            <x-users.account-cards icon="bi bi-person-circle" :text="$user->first_name.' '.$user->last_name" :username="$user->username"/>
         </div>
-        <div class="col-12 col-lg-9">
+        <div class="col-12 col-lg-9 p-2">
             <form action="{{ route('profile-required.update')  }}" method="POST" class="bg-white-color p-4">
                 @csrf
                 @method('PUT')

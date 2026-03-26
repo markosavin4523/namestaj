@@ -22,7 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CitiesSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(CategorySeeder::class);
+        $this->call(OrderStatusSeeder::class);
         User::factory(10)->create();
-        Product::factory(10)->create();
+        Product::factory(240)->create();
+        $this->call(PriceSeeder::class);
+        $this->call(DimensionSeeder::class);
     }
 }

@@ -11,12 +11,12 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
    protected $data = [];
-    public function indexRequiredInfo()
+    public function editRequiredInfo()
     {
         $data['user'] = auth()->user();
         return view('user.account.account-info',$data);
     }
-    public function indexPersonalInfo()
+    public function editPersonalInfo()
     {
         $data['cities'] = City::all();
         $data['user'] = auth()->user();
@@ -32,6 +32,14 @@ class ProfileController extends Controller
     {
         try {
             $user = auth()->user();
+            if (
+                $user->first_name == $request->first_name &&
+                $user->last_name == $request->last_name &&
+                $user->email == $request->email &&
+                $user->username == $request->username
+            ){
+                return redirect()->back()->with("error",'Niste izmenili ni jedan podatak!');
+            }
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->email = $request->email;
@@ -49,6 +57,15 @@ class ProfileController extends Controller
     {
         try {
             $user = auth()->user();
+            if (
+                $user->info->zip == $request->zip &&
+                $user->info->city_id == $request->city &&
+                $user->info->address == $request->address &&
+                $user->info->phone == $request->phone
+            ){
+                return redirect()->back()->with("error",'Niste izmenili ni jedan podatak!');
+            }
+
             $user->info->zip = $request->zip;
             $user->info->city_id = $request->city;
             $user->info->address = $request->address;

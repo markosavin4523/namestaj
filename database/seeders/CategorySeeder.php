@@ -12,10 +12,10 @@ class CategorySeeder extends Seeder
     {
         $data = [
             'Dnevna soba' => [
-                'Ugaone garniture', 'Trosedi i dvosedi', 'TV komode', 'Klub stolovi', 'Fotelje'
+                'Garniture', 'TV komode', 'Klub stolovi', 'Fotelje'
             ],
             'Spavaća soba' => [
-                'Bračni kreveti', 'Dušeci', 'Ormari', 'Noćni ormarići', 'Toaletni stolovi'
+                'Bračni kreveti', 'Dušeci', 'Ormari', 'Noćni ormarići',
             ],
             'Trpezarija' => [
                 'Trpezarijski stolovi', 'Stolice', 'Komode za posuđe', 'Vitrine'
@@ -25,13 +25,7 @@ class CategorySeeder extends Seeder
             ],
             'Radna soba' => [
                 'Radni stolovi', 'Kancelarijske stolice', 'Police za knjige', 'Fiokari'
-            ],
-            'Predsoblje' => [
-                'Cipelarnici', 'Čiviluci', 'Ogledala', 'Klupe za predsoblje'
-            ],
-            'Bašta i terasa' => [
-                'Baštenske garniture', 'Ležaljke', 'Suncobrani', 'Spoljna rasveta'
-            ],
+            ]
         ];
 
         foreach ($data as $mainCategory => $subCategories) {

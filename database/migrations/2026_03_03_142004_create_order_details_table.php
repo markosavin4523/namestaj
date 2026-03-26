@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('phone');
             $table->string('address');
             $table->string('zip');
+            $table->string('city');
 
             $table->foreignId('order_id')
                 ->constrained()

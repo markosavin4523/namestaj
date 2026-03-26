@@ -21,8 +21,18 @@
             </div>
 
             <div class="d-flex align-items-center gap-3 flex-shrink-0">
-                <a href="{{ route('like.index') }}" class="text-black fs-4" title="Lajkovano"><i class="bi bi-heart"></i></a>
-                <a href="{{ route('cart.index') }}" class="text-black fs-4" title="Korpa"><i class="bi bi-cart"></i></a>
+                <a href="{{ route('like.index') }}" class="icon-container text-black fs-4" title="Lajkovano">
+                    <i class="bi bi-heart" id="header_like"></i>
+                    <span id="like-count" class="circle-counter">
+                        {{ $likeCount }}
+                    </span>
+                </a>
+                <a href="{{ route('cart.index') }}" class="icon-container text-black fs-4" title="Korpa">
+                    <i class="bi bi-cart" id="header_cart"></i>
+                    <span id="cart-count" class="circle-counter">
+                        {{ $cartCount }}
+                    </span>
+                </a>
                 @if (Auth::check())
                     <div class="position-relative">
                         <p class="m-0 btnUnderline" id="header_username">
@@ -30,12 +40,12 @@
                             <i class="bi bi-chevron-down ms-1" id="header_arrow"></i>
                         </p>
                         <ul class="position-absolute top-100 start-0 p-0 border bg-white" id="header_dropDown_profileMenu" style="display:none;">
-                            <li><a href="{{ route('my-profile.index')  }}">Moj profil</a></li>
-                            <li><a href="">Moje porudzbine</a></li>
-                            <li>
-                                <form action="{{ route("logout") }}" method="POST">
+                            <li class="p-3"><a href="{{ route('my-profile.index')  }}" class="text-black"><i class="bi bi-person me-1"></i>Moj profil</a></li>
+                            <li class="p-3"><a href="{{ route('profile-orders.index') }}" class="text-black"><i class="bi bi-list me-1"></i>Moje porudzbine</a></li>
+                            <li class="p-0 m-0">
+                                <form action="{{ route("logout") }}" method="POST" class="w-100">
                                     @csrf
-                                    <button type="submit" class="">Logout</button>
+                                    <button type="submit" class="btn btn-primary w-100 p-3"><i class="bi bi-box-arrow-left me-1"></i>Odjavi se</button>
                                 </form>
                             </li>
                         </ul>

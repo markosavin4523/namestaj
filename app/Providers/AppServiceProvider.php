@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View; // 1. Obavezno uvezi ovo!
 use App\Models\Category;
@@ -21,8 +22,28 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $categories = Category::whereNull('parent_id')->with('children')->get();
+        Paginator::useBootstrap();
+        view()->composer('*', function ($view) {
 
-        View::share('categories', $categories);
+            $categories = Category::whereNull('parent_id')->with('children')->get();
+            if (auth()->check()) {
+                $likeCount = auth()->user()->likes()->count();
+                $cartCount = auth()->user()->carts()->first() ?
+                    auth()->user()->carts()->first()->products()->count()
+                    : 0;
+            } else {
+                $cartCount = count(session()->get('cart', []));
+                $likeCount = count(session()->get('guest_likes', []));
+            }
+
+
+
+            $view->with([
+                'categories' => $categories,
+                'likeCount' => $likeCount,
+                'cartCount' => $cartCount
+            ]);
+        });
+
     }
 }

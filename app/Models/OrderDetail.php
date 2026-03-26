@@ -10,10 +10,12 @@ class OrderDetail extends Model
 {
     use HasFactory;
     protected $fillable=[
+        'first_name',
+        'last_name',
         'phone',
         'address',
         'zip',
-        'city',
+        'city_id',
         'order_id',
     ];
     public function order() : BelongsTo
