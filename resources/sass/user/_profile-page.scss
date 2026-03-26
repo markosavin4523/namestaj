@@ -1,0 +1,18 @@
+.account-card{
+    width: 100%;
+    container-type: inline-size;
+    i{
+        font-size: 50cqw;
+        display: block;
+        text-align: center;
+        color: #4e4e4e !important;
+    }
+
+}
+a.link{
+    transition: 0.3s;
+    &:hover{
+        transform: scale(1.06);
+        border: 1px solid #232323
+    }
+}

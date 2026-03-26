@@ -27,9 +27,9 @@
 #header_dropDown_profileMenu{
     z-index: 1002;
     list-style: none;
-    width: 150px;
+    width: 200px;
     margin-top: 15px;
-    margin-left: -30px;
+    margin-left: -80px;
     li{
         padding: 10px 5px;
         &:hover{
@@ -37,5 +37,39 @@
         }
     }
 }
+.icon-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
 
+    i {
+        font-size: 24px;
+        color: #333;
+        transition: color 0.3s;
+    }
+
+    &:hover i {
+        color: $primary-color;
+    }
+
+    .circle-counter {
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        background-color: #ff0000;
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2px;
+        border: 2px solid #fff;
+
+    }
+}
 

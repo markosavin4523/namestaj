@@ -24,4 +24,17 @@ class Cart extends Model
             ->withPivot('quantity')
             ->withTimestamps();
     }
+    public function totalPrice()
+    {
+        $total = 0;
+        foreach ($this->products as $item) {
+            $price = $item->prices()->first()->value ?? 0;
+            $quantity = $item->pivot->quantity ?? 0;
+
+            $total += $price * $quantity;
+        }
+
+        return $total;
+
+    }
 }

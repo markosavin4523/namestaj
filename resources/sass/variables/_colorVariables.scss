@@ -1,2 +1,5 @@
 $primary-color : rgb(20, 60, 138);
+$primary-color-lighter:lighten($primary-color,20%);
 $red: red;
+$bg-color: #f5f7fa;
+$form-input-color: rgba($primary-color-lighter,0.05)

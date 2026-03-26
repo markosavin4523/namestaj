@@ -59,4 +59,8 @@ class Product extends Model
             ->withPivot('quantity')
             ->withTimestamps();
     }
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
 }

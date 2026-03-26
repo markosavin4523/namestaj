@@ -4,6 +4,13 @@ a{
 .rotate{
     transform: rotate(180deg) !important;
 }
+.rotate45{
+    display: inline-block;
+    transform: rotate(45deg) !important;
+}
 body{
-    background-color: #f1f1f1;
+    background-color: $bg-color;
+}
+.square{
+    aspect-ratio: 1 /1;
 }

@@ -1,0 +1,33 @@
+.popup {
+    position: fixed;
+    right: 5px;
+    top: 100px;
+    width: 18%;
+    z-index: 1200;
+    opacity: 1;
+    transition: all 0.3s ease;
+    background-color: white;
+
+
+    &.show {
+        animation: fadeSlideUp 0.5s 4s forwards;
+    }
+
+    .popup--error {
+        background-color: red !important;
+        color: white;
+    }
+
+    .popup--success {
+        background-color:green !important;
+        color: white;
+    }
+}
+
+@keyframes fadeSlideUp {
+    to {
+        opacity: 0;
+        transform: translateX(50px);
+        visibility: hidden;
+    }
+}

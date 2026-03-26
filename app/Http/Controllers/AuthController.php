@@ -15,9 +15,9 @@ class AuthController extends Controller
         try{
             $fields = $request->validated();
             if(Auth::attempt($fields)){
-                return redirect()->route('home.index');
+                return redirect()->route('home.index')->with('success', 'Uspesno ste se ulogovali');
             }
-            return back()->withErrors(["errors"=> "Ne postoji korisnik sa tim kredencijalima"]);
+            return back()->with('error',"Ne postoji korisnik sa tim kredencijalima");
         }
         catch (\Exception $exception){
              return back()->withErrors(["errors"=> $exception->getMessage()]);
@@ -43,10 +43,11 @@ class AuthController extends Controller
             $user->password =$request->password;
             $user->save();
 
+            Auth::login($user);
             return redirect()->back();
         }
         catch (\Exception $e) {
-
+            return back()->with("error","Doslo je do greske");
         }
 
     }

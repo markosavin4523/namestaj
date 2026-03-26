@@ -1,6 +1,6 @@
 @extends('layout.layout')
 @section('content')
-    <div class="container d-flex justify-content-center align-items-center flex-colum pt-5 p-3">
+    <div class="container d-flex justify-content-center align-items-center flex-column pt-5 p-3">
         <div class="form mt-5 col-12 col-md-6 col-lg-3">
             <h2 class="text-center">Prijava</h2>
             <form action="/login" method="GET" class="">
@@ -14,8 +14,8 @@
             </form>
             <p>Nemate nalog? <a href="{{ route('register')  }}" class="btnUnderline">Registruj se</a></p>
         </div>
-        @if(session('errors'))
-            <p class="alert alert-danger">{{session('errors')}}</p>
+        @if(session('error'))
+            <p class="alert alert-danger rounded-0 mt-2">{{session('error')}}</p>
         @endif
     </div>
 

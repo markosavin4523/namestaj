@@ -8,7 +8,7 @@
             <h2>Kategorije</h2>
             <div class="row">
                 @foreach($categories as $cat)
-                    <a class="col-12 col-md-6 col-lg-4">
+                    <a href="{{ route("category.index",['category'=>$cat->slug]) }}" class="col-12 col-md-6 col-lg-4 text-black">
                         <div class="categoryImg bg-white-color">
 
                         </div>
@@ -21,13 +21,7 @@
             <h2>Preporucujemo</h2>
             <div class="row">
                 @foreach($recomendedProducts as $p)
-                    <a class="col-12 col-md-6 col-lg-3">
-                        <div class="categoryImg bg-white-color">
-
-                        </div>
-                        <p class="text-black fs-5">{{$p->name}}</p>
-                        <p class="text-black fs-5">{{$p->price}}</p>
-                    </a>
+                    <x-products.product-card :p="$p"/>
                 @endforeach
             </div>
         </div>
