@@ -1,5 +1,6 @@
 @extends('layout.layout')
 @section('content')
+    <x-modals.review-modal :product="$product" />
     <div class="container pt-2">
         <div class="row showProduct">
             <div class="col-12 col-lg-6 p-2">
@@ -59,7 +60,6 @@
                             </div>
                                 @endif
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <button>Dodaj recenziju</button>
                                 @if(count($product->reviews)!=0)
                                     <a href="">Prikazi sve</a>
                                 @endif

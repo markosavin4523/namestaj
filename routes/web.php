@@ -16,6 +16,13 @@ use App\Http\Controllers\ProductController;
 
 
 Route::get('/', [PageController::class, 'homePage'])->name('home.index');
+//Admin panel
+Route::prefix('admin')->group(function () {
+    Route::get('home', function (){
+        return view('admin.home');
+    });
+});
+
 
 //Only guests
 Route::middleware('guest')->group(function () {
@@ -67,3 +74,5 @@ Route::get('/sacuvani-proizvodi',[LikeController::class,'index'])->name('like.in
 Route::get("/proizvodi", [ProductController::class,'index'])->name('product.index');
 Route::get('/{category}/{subcategory?}',[CategoryController::class,'index'])->name('category.index');
 Route::get('/{category}/{subcategory}/{product}',[ProductController::class,'show'])->name('product.show');
+
+
