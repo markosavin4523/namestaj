@@ -34,12 +34,19 @@ class CategorySeeder extends Seeder
                 'slug' => Str::slug($mainCategory),
                 'parent_id' => null,
             ]);
-
+            $parent->image()->create([
+                'path' => Str::slug($mainCategory) . '.jpg',
+                'alt' => "Nameštaj za $mainCategory"
+            ]);
             foreach ($subCategories as $subName) {
-                Category::create([
+                $category = Category::create([
                     'name' => $subName,
                     'slug' => Str::slug($subName),
                     'parent_id' => $parent->id,
+                ]);
+                $category->image()->create([
+                    'path' => Str::slug($subName) . '.jpg',
+                    'alt' => "Nameštaj za $subName"
                 ]);
             }
         }

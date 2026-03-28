@@ -5,7 +5,7 @@
                             "subcategory"=>$p->category->slug,
                             "product"=>$p->slug]
                         )}}">
-        <div class="product_img position-relative">
+        <div class="product_img position-relative" style="background-image:url('{{asset($p->image_path)}}')">
             <x-products.like-button :p="$p"/>
         </div>
         <span class="product_name fs-5">
@@ -23,7 +23,7 @@
             </span>
         </div>
         <span class="product-price mt-1">
-            RSD {{ $p->prices()->first()->value }}
+            RSD {{ $p->price }}
         </span>
     </a>
 </div>

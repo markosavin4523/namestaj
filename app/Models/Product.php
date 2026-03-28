@@ -25,13 +25,9 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
-    public function prices(): HasMany
+    public function image(): HasOne
     {
-        return $this->hasMany(Price::class);
-    }
-    public function images(): HasMany
-    {
-        return $this->hasMany(Image::class);
+        return $this->hasOne(Image::class,'product_id');
     }
 
     public function dimension(): HasOne
@@ -62,5 +58,11 @@ class Product extends Model
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
+    }
+    public function getImagePathAttribute(){
+        if (!$this->image) {
+            return "images/default.png";
+        }
+        return "storage/".$this->image->path;
     }
 }

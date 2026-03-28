@@ -11,16 +11,40 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+// Admin controllers
+use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminCitiesController;
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminOrderController;
+
+use App\Http\Middleware\AdminMiddleware;
 
 
 
 
 Route::get('/', [PageController::class, 'homePage'])->name('home.index');
 //Admin panel
-Route::prefix('admin')->group(function () {
-    Route::get('home', function (){
-        return view('admin.home');
-    });
+Route::prefix('admin')->middleware(AdminMiddleware::class)->name("admin.")->group(function () {
+
+    Route::get('/',[AdminPageController::class,"index"])->name('home.index');
+    Route::get('/korisnici',[\App\Http\Controllers\Admin\AdminUserController::class,"index"])->name('users.index');
+    Route::get('/aktivnosti-korisnika',[AdminPageController::class,"activityIndex"])->name('activity.index');
+
+    Route::get('/kategorije', [AdminCategoryController::class,"index"])->name('category.index');
+    Route::get('/gradovi', [AdminCitiesController::class,"index"])->name('cities.index');
+
+    Route::get('/kreiraj-proizvod', [AdminProductController::class,"create"])->name('product.create');
+    Route::post('/kreiraj-proizvod', [AdminProductController::class,"store"])->name('product.store');
+    Route::get('/proizvodi', [AdminProductController::class,"index"])->name('product.index');
+
+    Route::get('/statusi-porudzbina', [AdminOrderController::class,"statusesIndex"])->name('orderStatuses.index');
+    Route::get('/porudzbine', [AdminOrderController::class,"index"])->name('order.index');
+
+
+
+
+
 });
 
 

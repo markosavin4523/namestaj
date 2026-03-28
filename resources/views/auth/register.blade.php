@@ -26,7 +26,7 @@
                     <x-forms.input-field type="password" placeholder="Ponovite lozinku" name="password_confirmation"/>
                 </div>
 
-                <input type="submit" class="btn btn-primary form-input w-100 mt-3" value="Registruj se">
+                <input type="submit" class="btn btn-primary w-100 mt-3" value="Registruj se">
             </form>
             <p>Imate nalog? <a href="{{ route('login')  }}" class="btnUnderline">Uloguj se</a></p>
         </div>

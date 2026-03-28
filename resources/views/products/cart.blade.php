@@ -29,14 +29,14 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img src="https://images.unsplash.com/photo-sofa" alt="Sofa" width="80" class="me-2">
+                                    <img src="{{ asset($p->image_path)  }}" alt="Sofa" width="80" class="me-2">
                                     <span>{{ $p->name  }}</span>
                                 </div>
                             </td>
                             <td>{{ $p->dimension->height.' x '.$p->dimension->width.' x '.$p->dimension->depth }}</td>
-                            <td>{{ $p->prices->first()->value  }} RSD</td>
+                            <td>{{ $p->price  }} RSD</td>
                             <td>{{ $qty  }}</td>
-                            <td>{{ $p->prices()->first()->value * $qty }} RSD </td>
+                            <td>{{ $p->price * $qty }} RSD </td>
                             <td>
                                 <form action="{{ route("cart.destroy",[$p->id]) }}" method="POST">
                                     @csrf

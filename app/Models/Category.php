@@ -35,4 +35,20 @@ class Category extends Model
         return $this->hasOne(Image::class);
     }
 
+    public function getImagePathAttribute(){
+        if (!$this->image) {
+            return "images/default.png";
+        }
+        $path = $this->image->path;
+        if (file_exists(public_path("storage/" . $path))) {
+            return "storage/" . $path;
+        }
+        if (file_exists(public_path("images/categories/" . $path))) {
+            return "images/categories/" . $path;
+        }
+
+        return "images/default.png";
+    }
+
+
 }

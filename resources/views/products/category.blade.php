@@ -6,7 +6,7 @@
             @foreach($subcategories as $sub)
                 <a href="{{ route("category.index",['category'=>$category->slug, 'subcategory'=>$sub->slug]) }}"
                 class="col-6 col-md-4 col-lg-3 text-black d-flex flex-column justify-content-center align-items-center p-2 p-sm-5">
-                        <div class="rounded-circle w-100 square bg-white-color">
+                        <div class="rounded-circle w-100 square bg-white-color bg-image-center" style="background-image:url({{asset($sub->image_path)}})">
 
                         </div>
                         <p class=" fs-5 mt-2">{{ $sub->name  }}</p>

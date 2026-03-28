@@ -2,6 +2,11 @@
     <div class="container d-flex justify-content-end">
         <a href="{{ route("contact.index")  }}" class="text-white me-3">Kontakt</a>
         <a href="{{ route("author.index")  }}" class="text-white">Autor</a>
+        @auth
+        @if(auth()->user()->role_id == 1)
+            <a href="{{ route("admin.home.index")  }}" class="text-white ms-3">Admin panel</a>
+        @endif
+        @endauth
     </div>
 </div>
 <header class="border-bottom  bg-white position-sticky sticky-top">

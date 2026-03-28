@@ -29,7 +29,7 @@ class CategoryController extends Controller
             ->where('slug', $subcategorySlug)
             ->firstOrFail();
 
-        $products = $subcategory->products()->with(['images','dimension','prices'])->paginate(12);
+        $products = $subcategory->products()->with(['image','dimension'])->paginate(12);
         $data['products'] = $products;
         $data['subcategory'] = $subcategory;
         return view('products.products', $data);

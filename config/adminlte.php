@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'admin/',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -301,79 +301,64 @@ return [
     'menu' => [
         // Navbar items:
         [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],
-        [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
         // Sidebar items:
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
             'text' => 'blog',
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
         [
+            'text' => 'Aktivnosti korisnika',
+            'url' => 'admin/aktivnosti-korisnika',
+            'icon' => 'fa fa-users',
+            'label_color' => 'success',
+        ],
+        [
             'text' => 'Porudzbine',
-            'url' => 'admin/pages',
+            'url' => 'admin/porudzbine',
             'icon' => 'fas fa-book',
             'label_color' => 'success',
         ],
         ['header' => 'Podesavanje'],
         [
             'text' => 'Korisnici',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'url' => 'admin/korisnici',
+            'icon' => 'fas fa-fw fa-users',
+        ],
+        [
+            'text' => 'Gradovi',
+            'url' => 'admin/gradovi',
+            'icon' => 'fas fa-fw fa-map-marker',
+        ],
+        [
+            'text' => 'Statusi porudzbina',
+            'url' => 'admin/statusi-porudzbina',
+            'icon' => 'fas fa-fw fa-circle',
         ],
         [
             'text' => 'Proizvodi',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-item',
-        ],
-        [
-            'text' => 'multilevel',
             'icon' => 'fas fa-fw fa-share',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'Lista proizvoda',
+                    'icon' => 'fas fa-fw fa-list-ul',
+                    'url' => 'admin/proizvodi',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'Dodaj proizvod',
+                    'icon' => 'fas fa-fw fa-plus',
+                    'url' => 'admin/kreiraj-proizvod',
                 ],
             ],
+        ],
+        [
+            'text' => 'Kategorije',
+            'url' => 'admin/kategorije',
+            'icon' => 'fas fa-fw fa-circle',
         ],
 
     ],

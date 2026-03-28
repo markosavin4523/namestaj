@@ -32,7 +32,7 @@
                             <li class="list-group-item"><i class="bi bi-arrows-vertical rotate45"></i> Dubina: {{ $product->dimension->depth }} cm</li>
                             <li class="list-group-item">Kategorija: {{ $product->category->name }}</li>
                         </ul>
-                        <p class="fs-1">{{ $product->prices()->first()->value  }} RSD</p>
+                        <p class="fs-1">{{ $product->price  }} RSD</p>
                         <div class="d-flex flex-row pb-3 border-bottom">
                             <button class="btn btn-primary fs-4 me-2" id="btn-cart" data-id="{{ $product->id  }}">
                                 <i class="bi bi-cart-plus-fill me-2"></i>Dodaj u korpu

@@ -14,7 +14,7 @@ class CartController extends Controller
     {
         $user = auth()->user();
         if ($user) {
-            $cart= $user->carts()->with('products.images', 'products.prices')->first();
+            $cart= $user->carts()->with('products.image')->first();
             $products = $cart ? $cart->products : [];
             $cartPrice =$cart ? $cart->totalPrice() : 0;
 
@@ -24,11 +24,11 @@ class CartController extends Controller
             $cart = session()->get('cart', []);
             $productIds = array_keys($cart);
 
-            $products = Product::whereIn('id', $productIds)->with(['images', 'prices'])->get();
+            $products = Product::whereIn('id', $productIds)->with(['image'])->get();
             $cartPrice = 0;
             foreach ($products as $product) {
                 $quantity = $cart[$product->id]['quantity'] ?? 0;
-                $price = $product->prices()->first()->value ?? 0;
+                $price = $product->price ?? 0;
                 $cartPrice += $price * $quantity;
             }
         }

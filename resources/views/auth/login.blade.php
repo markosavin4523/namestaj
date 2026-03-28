@@ -10,7 +10,7 @@
                 <div class="form-group mt-3">
                     <x-forms.input-field type="password" placeholder="Lozinka" name="password"/>
                 </div>
-                <input type="submit" class="btn btn-primary form-input w-100 mt-3" value="Prijavi se">
+                <input type="submit" class="btn btn-primary w-100 mt-3" value="Prijavi se">
             </form>
             <p>Nemate nalog? <a href="{{ route('register')  }}" class="btnUnderline">Registruj se</a></p>
         </div>
