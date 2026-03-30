@@ -12,14 +12,19 @@
             <form action="" class="d-flex justify-content-center align-items-end">
                 <div class="form-group p-1">
                     <label for="">E-mail ili username</label>
-                    <input type="text" class="form-control form-input" name="" id="">
+                    <input type="text" class="form-control" name="email" value="{{ $request->email }}" id="">
                 </div>
                 <div class="form-group p-1">
-                    <label for="">Sifra porudzbine</label>
-                    <input type="text" class="form-control form-input" name="" placeholder="primer ORD-12345623">
+                    <label for="">Uloga</label>
+                    <select name="role" id="" class="form-select">
+                        <option value="">Izaberi</option>
+                        @foreach($roles as $r)
+                            <option value="{{$r->id}}" {{ $r->id == $request->role ? "selected" : ""}}>{{ $r->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group p-1">
-                    <button class="btn btn-primary form-input shadow-sm">Pretrazi</button>
+                    <button class="btn btn-primary shadow-sm">Pretrazi</button>
                 </div>
 
             </form>
@@ -55,13 +60,19 @@
                                 <div>{{ $u->email }}</div>
                             </td>
                             <td>
-                                <div class="text-muted">{{ $u->role->name }}</div>
+                                <form action="{{ route("admin.role.update",["id"=>$u->id]) }}" method="POST" class="d-flex flex-row">
+                                    @csrf
+                                    @method("patch")
+                                    <select name="role" class="form-select col-6">
+                                        @foreach($roles as $r)
+                                            <option value="{{$r->id}}" {{ $u->role->id == $r->id ? 'selected' : '' }}>{{ $r->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button class="btn btn-primary"><i class="fa fa-check"></i></button>
+                                </form>
                             </td>
                             <td>
                                 <div>{{ $u->status ? "Aktivan" : "Neaktivan"}}</div>
-                            </td>
-                            <td>
-                                <a href="" class="">Proizvodi</a>
                             </td>
                         </tr>
                     @endforeach

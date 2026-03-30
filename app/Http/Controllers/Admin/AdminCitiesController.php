@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class AdminCitiesController extends Controller
@@ -11,10 +12,16 @@ class AdminCitiesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cities = City::paginate(10);
-        return view('admin.cities', compact('cities'));
+        $query = City::query();
+        if ($request->filled('city'))
+        {
+            $query->where("name","like",$request->city);
+        }
+        $cities = $query->paginate(10);
+
+        return view('admin.cities', compact('cities',"request"));
     }
 
     /**
@@ -30,7 +37,15 @@ class AdminCitiesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'city' => 'required',
+        ]);
+        $name = $request->city;
+        $city = new City();
+        $city->name = $name;
+        $city->save();
+        return back()->with("success","Uspesno dodat grad");
+
     }
 
     /**
@@ -62,6 +77,11 @@ class AdminCitiesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $city = City::findOrFail($id);
+        if ($city->users()->exists() || $city->orders()->exists() ){
+            return back()->with("error","Nije moguce obrisati grad koji ima korisnike ili porudzbine");
+        }
+        $city->delete();
+        return back()->with("success","Uspesno obrisan grad");
     }
 }

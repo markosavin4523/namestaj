@@ -4,19 +4,7 @@
     <div class="container pt-2">
         <div class="row showProduct">
             <div class="col-12 col-lg-6 p-2">
-                <div class="showProduct_images">
-                    <div class="showProduct_images_img bg-white-color">
-
-                    </div>
-                    <div class="d-flex flex-row justify-content-start showProduct_other_images">
-                        @foreach(range(1,5) as $i)
-                            <div class="showProduct_other_images_img bg-white-color">
-
-                            </div>
-                        @endforeach
-
-                    </div>
-                </div>
+                <img src="{{ asset($product->image_path) }}" width="100%">
             </div>
             <div class="col-12 col-lg-6 p-2">
                 <div class="showProduct_info bg-white-color p-3">

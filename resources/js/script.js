@@ -78,6 +78,21 @@ $(document).ready(function (){
 
         })
     });
+    //filter-bar range
+    let price=$("#priceRange").val();
+    if (price > 0){
+        $("#priceDisplay").html("do "+price+" RSD");
+    }
+
+
+    $("#priceRange").on("input",function (){
+        if (this.value > 0){
+            $("#priceDisplay").html("do "+this.value+" RSD");
+        }
+        else {
+            $("#priceDisplay").html("");
+        }
+    })
 })
 
 

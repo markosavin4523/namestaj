@@ -12,10 +12,25 @@ class AdminOrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with(['user', 'status','details'])->paginate(10);
-        return view('admin.orders', compact('orders'));
+        $query = Order::with(['user', 'status','details','products.image']);
+        $statuses = OrderStatus::all();
+
+        if ($request->filled('email'))
+        {
+            $query->whereHas("user", function ($q) use ($request) {
+                $q->where("email","like",$request->email)
+                ->orWhere("username","like",$request->email);
+            });
+        }
+        if ($request->filled('order'))
+        {
+            $query->where("order_number","like",$request->order);
+        }
+        $orders = $query->orderBy('order_status_id')->paginate(10);
+
+        return view('admin.orders', compact('orders','request','statuses'));
     }
     public function statusesIndex()
     {
@@ -59,7 +74,14 @@ class AdminOrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $order = Order::where("id",$id)->firstOrFail();
+        if ($order->order_status_id == $request->status)
+        {
+            return back()->with("error","Porudzbina vec ima izabrani status");
+        }
+        $order->order_status_id = $request->status;
+        $order->save();
+        return back()->with("success","Uspesno ste izmijenili status");
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,10 +12,19 @@ class AdminUserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with("role")->paginate(12);
-        return view('admin.users', compact('users'));
+        $roles = Role::all();
+        $query = User::with("role");
+        if ($request->filled('role')) {
+            $query->where("role_id",$request->role);
+        }
+        if ($request->filled('email')) {
+            $query->where("email","like",$request->email)
+            ->orWhere("username","like",$request->email);
+        }
+        $users = $query->paginate(10);
+        return view('admin.users', compact('users','roles','request'));
     }
 
     /**
@@ -55,6 +65,17 @@ class AdminUserController extends Controller
     public function update(Request $request, string $id)
     {
         //
+    }
+    public function roleUpdate(Request $request, string $id)
+    {
+        $user = User::where("id",$id)->firstOrFail();
+        if ($user->role_id == $request->role)
+        {
+            return back()->with("error","Korisnik vec ima izabranu ulogu");
+        }
+        $user->role_id = $request->role;
+        $user->save();
+        return back()->with("success","Uspesno ste izmijenili uloku korisniku");
     }
 
     /**

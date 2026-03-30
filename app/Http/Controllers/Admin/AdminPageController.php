@@ -27,8 +27,23 @@ class AdminPageController extends Controller
     }
 
     public function activityIndex(Request $request){
-        $activities = Activity::latest()->paginate(10);
+        $query = Activity::query();
+        if ( $request->filled("date_from") && $request->filled("date_to") && $request->date_from > $request->date_to)
+        {
+            return back()->with("error","Datum od mora biti pre datuma do!");
+        }
+        if ($request->filled("email")){
+            $query->where("user","LIKE",$request->email. "%");
+        }
+        if ($request->filled("date_from")){
+            $query->whereDate("date",">=",$request->date_from);
+        }
+        if ($request->filled("date_to")){
+            $query->whereDate("date","<=",$request->date_to);
+        }
+        $activities = $query->orderBy("date","desc")->paginate(10);
         $data['activities'] = $activities;
+        $data['request'] = $request;
         return view('admin.activity',$data);
 
     }

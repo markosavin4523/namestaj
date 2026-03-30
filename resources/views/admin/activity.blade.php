@@ -9,21 +9,21 @@
 @section('content')
     <div class="card shadow-sm border-0">
         <div class="card-header bg-white py-3">
-            <form action="" class="d-flex justify-content-center align-items-end">
+            <form action="{{ route("admin.activity.index") }}" method="GET" class="d-flex justify-content-center align-items-end">
                 <div class="form-group p-1">
                     <label for="">E-mail korisnika</label>
-                    <input type="text" class="form-control form-input" name="" id="" placeholder="korisnik">
+                    <input type="text" class="form-control" name="email" id="" placeholder="korisnik" value="{{ $request->email }}">
                 </div>
                 <div class="form-group p-1">
                     <label for="">Datum od</label>
-                    <input type="date" class="form-control form-input" name="" id="" placeholder="korisnik">
+                    <input type="date" class="form-control" name="date_from" id="" value="{{ $request->date_from }}" placeholder="korisnik">
                 </div>
                 <div class="form-group p-1">
                     <label for="">Datum od</label>
-                    <input type="date" class="form-control form-input" name="" id="" placeholder="korisnik">
+                    <input type="date" class="form-control" name="date_to" id="" value="{{ $request->date_to }}" placeholder="korisnik">
                 </div>
                 <div class="form-group p-1">
-                    <button class="btn btn-primary form-input shadow-sm">Pretrazi</button>
+                    <button class="btn btn-primary shadow-sm">Pretrazi</button>
                 </div>
 
             </form>
@@ -36,7 +36,7 @@
                         <th>Korisnik</th>
                         <th>Ruta / Akcija</th>
                         <th>Podaci</th>
-                        <th class="text-end pe-4">Query string</th>
+                        <th>Query string</th>
                         <th>Datum</th>
                     </tr>
                     </thead>
@@ -63,7 +63,7 @@
                                     {{ \Illuminate\Support\Str::limit($a->query, 20, '...') }}
                                 </span>
                             </td>
-                            <td class="text-end pe-4">
+                            <td class="pe-4">
                                 <div class="text-muted">{{ $a->created_at->format('d.m.Y H:i') }}</div>
                             </td>
                         </tr>
