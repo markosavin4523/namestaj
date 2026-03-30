@@ -26,7 +26,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->paragraph(4),
             'quantity' => $this->faker->numberBetween(0, 100),
             'slug' => Str::slug($name),
-            'discount' => $this->faker->numberBetween(0, 50),
+            'price' => $this->faker->numberBetween(1000, 10000),
             'category_id' => Category::whereNotNull('parent_id')
                 ->inRandomOrder()
                 ->value('id'),

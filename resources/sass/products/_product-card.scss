@@ -1,6 +1,8 @@
 .product{
     &_img{
-        background-color: white;
+        background-position:center;
+        background-size: cover;
+        overflow: hidden;
         height: 300px;
         width: 100%;
     }

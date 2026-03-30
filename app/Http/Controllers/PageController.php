@@ -11,7 +11,7 @@ class PageController extends Controller
 {
     protected $data = [];
     public function homePage(){
-        $recomendedProducts = Product::take(4)->inRandomOrder()->get();
+        $recomendedProducts = Product::take(4)->with('image')->inRandomOrder()->get();
         $data['recomendedProducts'] = $recomendedProducts;
         return view('pages.home',$data);
     }

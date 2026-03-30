@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -11,16 +12,45 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+// Admin controllers
+use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminCitiesController;
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\AdminUserController;
+
+use App\Http\Middleware\AdminMiddleware;
 
 
 
 
 Route::get('/', [PageController::class, 'homePage'])->name('home.index');
 //Admin panel
-Route::prefix('admin')->group(function () {
-    Route::get('home', function (){
-        return view('admin.home');
-    });
+Route::prefix('admin')->middleware(AdminMiddleware::class)->name("admin.")->group(function () {
+
+    Route::get('/',[AdminPageController::class,"index"])->name('home.index');
+    Route::get('/korisnici',[AdminUserController::class,"index"])->name('users.index');
+    Route::get('/aktivnosti-korisnika',[AdminPageController::class,"activityIndex"])->name('activity.index');
+    Route::patch('/korisnik/uloga/{id}',[AdminUserController::class,"roleUpdate"])->name('role.update');
+
+    Route::get('/kategorije', [AdminCategoryController::class,"index"])->name('category.index');
+    Route::get('/gradovi', [AdminCitiesController::class,"index"])->name('cities.index');
+    Route::post('/gradovi', [AdminCitiesController::class,"store"])->name('cities.store');
+    Route::delete('/gradovi/{id}', [AdminCitiesController::class,"destroy"])->name('cities.destroy');
+
+    Route::get('/kreiraj-proizvod', [AdminProductController::class,"create"])->name('product.create');
+    Route::post('/kreiraj-proizvod', [AdminProductController::class,"store"])->name('product.store');
+    Route::get('/proizvodi', [AdminProductController::class,"index"])->name('product.index');
+
+    Route::get('/statusi-porudzbina', [AdminOrderController::class,"statusesIndex"])->name('orderStatuses.index');
+    Route::get('/porudzbine', [AdminOrderController::class,"index"])->name('order.index');
+    Route::patch('/porudzbine/{order}', [AdminOrderController::class,"update"])->name('order.update');
+
+
+
+
+
 });
 
 
@@ -67,6 +97,7 @@ Route::post('/korpa/porudzbina',[OrderController::class,'store'])->name('order.s
 //Contact pages
 Route::view('/autor','pages.author')->name('author.index');
 Route::view('/kontakt','pages.contact')->name('contact.index');
+Route::post('/kontakt',[ContactController::class,'store'])->name('contact.store');
 
 //Products
 

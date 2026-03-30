@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('zip');
-            $table->string('city');
+            $table->foreignId('city_id')
+                    ->constrained()
+                    ->cascadeOnDelete();
 
             $table->foreignId('order_id')
                 ->constrained()

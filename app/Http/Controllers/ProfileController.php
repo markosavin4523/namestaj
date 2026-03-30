@@ -58,24 +58,26 @@ class ProfileController extends Controller
         try {
             $user = auth()->user();
             if (
-                $user->info->zip == $request->zip &&
-                $user->info->city_id == $request->city &&
-                $user->info->address == $request->address &&
-                $user->info->phone == $request->phone
+                $user->info?->zip == $request->zip &&
+                $user->info?->city_id == $request->city &&
+                $user->info?->address == $request->address &&
+                $user->info?->phone == $request->phone
             ){
                 return redirect()->back()->with("error",'Niste izmenili ni jedan podatak!');
             }
-
-            $user->info->zip = $request->zip;
-            $user->info->city_id = $request->city;
-            $user->info->address = $request->address;
-            $user->info->phone = $request->phone;
-
-            $user->info->save();
+            $user->info()->updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'zip' => $request->zip,
+                    'city_id' => $request->city,
+                    'address' => $request->address,
+                    'phone' => $request->phone,
+                ]
+            );
             return redirect()->back()->with('success', 'Uspesno sacuvane izmene.');
         }
         catch (\Exception $e) {
-            return back()->withErrors([$e->getMessage()]);
+            return back()->with("error",$e->getMessage());
         }
     }
 

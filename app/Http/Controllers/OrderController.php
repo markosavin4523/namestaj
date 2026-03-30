@@ -42,7 +42,7 @@ class OrderController extends Controller
         $cities = City::all();
         $user = auth()->user();
         if ($user) {
-            $cart = $user->carts()->with(['products.prices'])->first();
+            $cart = $user->carts()->first();
             $cartPrice = $cart->totalPrice();
 
         }
@@ -50,11 +50,11 @@ class OrderController extends Controller
             $cart = session()->get('cart', []);
             $productIds = array_keys($cart);
 
-            $products = Product::whereIn('id', $productIds)->with(['images', 'prices'])->get();
+            $products = Product::whereIn('id', $productIds)->with(['image'])->get();
             $cartPrice = 0;
             foreach ($products as $product) {
                 $quantity = $cart[$product->id]['quantity'] ?? 0;
-                $price = $product->prices()->first()->value ?? 0;
+                $price = $product->price ?? 0;
                 $cartPrice += $price * $quantity;
 
             }
@@ -75,7 +75,7 @@ class OrderController extends Controller
         $user = auth()->user();
         if ($user) {
             $userId = $user->id;
-            $cart = $user->carts()->with('products.prices')->first();
+            $cart = $user->carts()->first();
             $products = $cart ? $cart->products : [];
             $totalPrice = $cart ? $cart->totalPrice() : 0;
         }
@@ -83,11 +83,11 @@ class OrderController extends Controller
             $userId = null;
             $cartSession = session()->get('cart', []);
             $productIds = array_keys($cartSession);
-            $products = Product::whereIn('id', $productIds)->with('prices')->get();
+            $products = Product::whereIn('id', $productIds)->get();
 
             $totalPrice = 0;
             foreach ($products as $p) {
-                $totalPrice += ($p->prices->first()->value ?? 0) * ($cartSession[$p->id]['quantity'] ?? 0);
+                $totalPrice += ($p->price ?? 0) * ($cartSession[$p->id]['quantity'] ?? 0);
             }
         }
         if ($products->isEmpty()) {
@@ -107,7 +107,7 @@ class OrderController extends Controller
             $orderDet->last_name = $request->last_name;
             $orderDet->phone = $request->phone;
             $orderDet->address = $request->address;
-            $orderDet->city = $request->city;
+            $orderDet->city_id = $request->city;
             $orderDet->zip = $request->zip;
             $orderDet->order_id = $order->id;
             $orderDet->save();
@@ -119,7 +119,7 @@ class OrderController extends Controller
                 }
                 $order->products()->attach($p->id, [
                     'quantity' => $qty,
-                    'price' => $p->prices->first()->value ?? 0
+                    'price' => $p->price ?? 0
                 ]);
                 $p->decrement('quantity', $qty);
             }

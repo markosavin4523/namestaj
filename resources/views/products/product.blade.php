@@ -4,19 +4,7 @@
     <div class="container pt-2">
         <div class="row showProduct">
             <div class="col-12 col-lg-6 p-2">
-                <div class="showProduct_images">
-                    <div class="showProduct_images_img bg-white-color">
-
-                    </div>
-                    <div class="d-flex flex-row justify-content-start showProduct_other_images">
-                        @foreach(range(1,5) as $i)
-                            <div class="showProduct_other_images_img bg-white-color">
-
-                            </div>
-                        @endforeach
-
-                    </div>
-                </div>
+                <img src="{{ asset($product->image_path) }}" width="100%">
             </div>
             <div class="col-12 col-lg-6 p-2">
                 <div class="showProduct_info bg-white-color p-3">
@@ -32,7 +20,7 @@
                             <li class="list-group-item"><i class="bi bi-arrows-vertical rotate45"></i> Dubina: {{ $product->dimension->depth }} cm</li>
                             <li class="list-group-item">Kategorija: {{ $product->category->name }}</li>
                         </ul>
-                        <p class="fs-1">{{ $product->prices()->first()->value  }} RSD</p>
+                        <p class="fs-1">{{ $product->price  }} RSD</p>
                         <div class="d-flex flex-row pb-3 border-bottom">
                             <button class="btn btn-primary fs-4 me-2" id="btn-cart" data-id="{{ $product->id  }}">
                                 <i class="bi bi-cart-plus-fill me-2"></i>Dodaj u korpu

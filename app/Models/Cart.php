@@ -28,7 +28,7 @@ class Cart extends Model
     {
         $total = 0;
         foreach ($this->products as $item) {
-            $price = $item->prices()->first()->value ?? 0;
+            $price = $item->price ?? 0;
             $quantity = $item->pivot->quantity ?? 0;
 
             $total += $price * $quantity;
