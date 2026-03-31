@@ -23,6 +23,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->foreignid('user_id')
                 ->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

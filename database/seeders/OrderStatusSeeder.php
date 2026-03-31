@@ -17,6 +17,7 @@ class OrderStatusSeeder extends Seeder
             'U obradi',
             'Isporuceno kurirskoj sluzbi',
             'Dovrseno',
+            "Otkazano"
         ];
 
         foreach ($statuses as $s) {

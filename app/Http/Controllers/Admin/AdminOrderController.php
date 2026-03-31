@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use Illuminate\Http\Request;
@@ -37,41 +38,30 @@ class AdminOrderController extends Controller
         $statuses = OrderStatus::paginate(10);
         return view('admin.order-status', compact('statuses'));
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function statusesStore(Request $request)
+    {
+        $request->validate([
+            'status' => 'required',
+        ]);
+        $name = $request->status;
+        $status = new OrderStatus();
+        $status->name = $name;
+        $status->save();
+        return back()->with("success","Uspesno dodat status");
+    }
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'city' => 'required',
+        ]);
+        $name = $request->city;
+        $city = new City();
+        $city->name = $name;
+        $city->save();
+        return back()->with("success","Uspesno dodat grad");
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $order = Order::where("id",$id)->firstOrFail();
@@ -87,8 +77,12 @@ class AdminOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function statusDestroy(OrderStatus $s)
     {
-        //
+        if ($s->orders()->exists() ){
+            return back()->with("error","Nije moguce obrisati staus koji ima porudzbine");
+        }
+        $s->delete();
+        return back()->with("success","Status je izbrisan");
     }
 }

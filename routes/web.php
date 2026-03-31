@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -34,7 +35,8 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->name("admin.")->grou
     Route::get('/aktivnosti-korisnika',[AdminPageController::class,"activityIndex"])->name('activity.index');
     Route::patch('/korisnik/uloga/{id}',[AdminUserController::class,"roleUpdate"])->name('role.update');
 
-    Route::get('/kategorije', [AdminCategoryController::class,"index"])->name('category.index');
+    Route::resource('/kategorije', [AdminCategoryController::class]);
+
     Route::get('/gradovi', [AdminCitiesController::class,"index"])->name('cities.index');
     Route::post('/gradovi', [AdminCitiesController::class,"store"])->name('cities.store');
     Route::delete('/gradovi/{id}', [AdminCitiesController::class,"destroy"])->name('cities.destroy');
@@ -44,11 +46,14 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->name("admin.")->grou
     Route::get('/proizvodi', [AdminProductController::class,"index"])->name('product.index');
 
     Route::get('/statusi-porudzbina', [AdminOrderController::class,"statusesIndex"])->name('orderStatuses.index');
+    Route::post('/statusi-porudzbina', [AdminOrderController::class,"statusesStore"])->name('orderStatuses.store');
+
     Route::get('/porudzbine', [AdminOrderController::class,"index"])->name('order.index');
     Route::patch('/porudzbine/{order}', [AdminOrderController::class,"update"])->name('order.update');
 
-
-
+    //Kontakt
+    Route::get('/poruke', [AdminContactController::class,"index"])->name('contact.index');
+    Route::get('/poruke/{c}', [AdminContactController::class,"show"])->name('contact.show');
 
 
 });

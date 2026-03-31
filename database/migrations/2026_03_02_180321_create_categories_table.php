@@ -26,6 +26,7 @@ return new class extends Migration
             $table->index('parent_id');
 
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

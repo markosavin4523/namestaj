@@ -323,6 +323,12 @@ return [
             'icon' => 'fas fa-book',
             'label_color' => 'success',
         ],
+        [
+            'text' => 'Poruke',
+            'url' => 'admin/poruke',
+            'icon' => 'fas fa-comments',
+            'label_color' => 'success',
+        ],
         ['header' => 'Podesavanje'],
         [
             'text' => 'Korisnici',
