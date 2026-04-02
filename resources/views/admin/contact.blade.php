@@ -21,6 +21,9 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @if($messages->isEmpty())
+                        <div><div class="alert alert-warning">Ne postoje poruke</div></div>
+                    @endif
                     @foreach($messages as $m)
                             <tr class="{{ $m->is_seen ? "" : 'fw-bold' }}">
                                 <td>{{ $m->name }}</td>
@@ -36,6 +39,7 @@
                     @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>

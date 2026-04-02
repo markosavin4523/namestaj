@@ -93,6 +93,32 @@ $(document).ready(function (){
             $("#priceDisplay").html("");
         }
     })
+
+    //admin panel
+
+    //category dropdown list
+    $("#main_category").on("change",function (){
+        let id = $(this).val();
+        let options = $("#subcategory-options");
+        let url = `/admin/dohvati-podkategorije/${id}`;
+        let html = "";
+        options.html(html);
+        $.ajax({
+            url: url,
+            method: "get",
+            success: function (success) {
+                console.log(success.children)
+                for( let i=0;i < success.children.length; i++){
+                    html+=`<option value="${success.children[i].id}">${success.children[i].name}</option>`;
+                }
+                console.log(success.children.length);
+                options.html(html);
+            },
+            error: function (xhr){
+                console.log(xhr.message)
+            }
+        })
+    });
 })
 
 

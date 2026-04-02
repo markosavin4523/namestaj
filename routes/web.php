@@ -35,7 +35,8 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->name("admin.")->grou
     Route::get('/aktivnosti-korisnika',[AdminPageController::class,"activityIndex"])->name('activity.index');
     Route::patch('/korisnik/uloga/{id}',[AdminUserController::class,"roleUpdate"])->name('role.update');
 
-    Route::resource('/kategorije', [AdminCategoryController::class]);
+    Route::resource('/kategorije', AdminCategoryController::class)->names('categories');
+    Route::get("/dohvati-podkategorije/{id}", [AdminCategoryController::class, "children"])->name("categories.children");
 
     Route::get('/gradovi', [AdminCitiesController::class,"index"])->name('cities.index');
     Route::post('/gradovi', [AdminCitiesController::class,"store"])->name('cities.store');
@@ -43,7 +44,8 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->name("admin.")->grou
 
     Route::get('/kreiraj-proizvod', [AdminProductController::class,"create"])->name('product.create');
     Route::post('/kreiraj-proizvod', [AdminProductController::class,"store"])->name('product.store');
-    Route::get('/proizvodi', [AdminProductController::class,"index"])->name('product.index');
+
+    Route::resource('/proizvodi', AdminProductController::class)->names('products');
 
     Route::get('/statusi-porudzbina', [AdminOrderController::class,"statusesIndex"])->name('orderStatuses.index');
     Route::post('/statusi-porudzbina', [AdminOrderController::class,"statusesStore"])->name('orderStatuses.store');

@@ -28,6 +28,7 @@ class ProductFactory extends Factory
             'slug' => Str::slug($name),
             'price' => $this->faker->numberBetween(1000, 10000),
             'category_id' => Category::whereNotNull('parent_id')
+                ->where('active', true)
                 ->inRandomOrder()
                 ->value('id'),
             'user_id' => User::inRandomOrder()->first()->id,

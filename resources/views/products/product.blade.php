@@ -18,15 +18,19 @@
                             <li class="list-group-item"><i class="bi bi-arrows-vertical"></i> Visina: {{ $product->dimension->height }} cm</li>
                             <li class="list-group-item"><i class="bi bi-arrows"></i> Sirina: {{ $product->dimension->width }} cm</li>
                             <li class="list-group-item"><i class="bi bi-arrows-vertical rotate45"></i> Dubina: {{ $product->dimension->depth }} cm</li>
-                            <li class="list-group-item">Kategorija: {{ $product->category->name }}</li>
+                            <li class="list-group-item">Kategorija: {{ $product->category->name ?? "nekategorizovan" }}</li>
                         </ul>
                         <p class="fs-1">{{ $product->price  }} RSD</p>
+                    @if($product->quantity > 0)
                         <div class="d-flex flex-row pb-3 border-bottom">
                             <button class="btn btn-primary fs-4 me-2" id="btn-cart" data-id="{{ $product->id  }}">
                                 <i class="bi bi-cart-plus-fill me-2"></i>Dodaj u korpu
                             </button>
                             <input type="number" class="form-contro form-input" id="cart_quantity" min="1" max="10"  name="" id="" value="1">
                         </div>
+                    @else
+                           <div class="alert alert-danger">Nije na stanju</div>
+                    @endif
                         <div class="reviews mt-3">
                             <h2>Recenzije ({{ count($product->reviews) }})</h2>
                                 @if(count($product->reviews)==0)

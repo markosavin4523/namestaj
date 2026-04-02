@@ -16,7 +16,6 @@ class Category extends Model
     protected $fillable = [
         'name',
         'parent_id',
-        'status',
         'slug',
     ];
     public function parent() : BelongsTo

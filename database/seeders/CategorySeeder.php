@@ -50,5 +50,19 @@ class CategorySeeder extends Seeder
                 ]);
             }
         }
+        //Oglasi iz izbrisane kategorije idu ovde
+        $unactiveCat = Category::create([
+            'name' => 'Ostalo',
+            'slug' => Str::slug('Ostalo'),
+            'parent_id' => null,
+            "active" => false
+        ]);
+        Category::create([
+            "name"=>"nekategorizovano",
+            "slug"=>"nekategorizovano",
+            "parent_id" => $unactiveCat->id,
+            "active" => false
+        ]);
+
     }
 }

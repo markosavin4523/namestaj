@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug')
                 ->unique()
                 ->index();
-
+            $table->boolean('active')->default(true);
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->foreign('parent_id')
                 ->references('id')
@@ -25,7 +25,6 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->index('parent_id');
 
-            $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
