@@ -44,7 +44,7 @@ class AdminPageController extends Controller
         $activities = $query->orderBy("date","desc")->paginate(10);
         $data['activities'] = $activities;
         $data['request'] = $request;
-        return view('admin.activity',$data);
+        return view('admin.users.activity',$data);
 
     }
 }

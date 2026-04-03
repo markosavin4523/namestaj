@@ -9,13 +9,14 @@
 @section('content')
     <div class="card shadow-sm border-0">
         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-            <form action="" class="d-flex justify-content-center align-items-end">
+            <form action="{{ route("admin.orderStatuses.store") }}" method="POST" class="d-flex justify-content-center align-items-end">
+                @csrf
                 <div class="form-group p-1">
                     <label for="">Dodaj status</label>
-                    <input type="text" class="form-control form-input" name="" id="">
+                    <input type="text" class="form-control" name="status" id="">
                 </div>
                 <div class="form-group p-1">
-                    <button class="btn btn-primary form-input shadow-sm">Dodaj</button>
+                    <button class="btn btn-primary shadow-sm">Dodaj</button>
                 </div>
             </form>
         </div>
@@ -25,6 +26,7 @@
                     <thead class="bg-light">
                     <tr>
                         <th>Status porudzbine</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>

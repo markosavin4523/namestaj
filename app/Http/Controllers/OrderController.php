@@ -96,7 +96,7 @@ class OrderController extends Controller
         DB::beginTransaction();
         try {
             $order = new Order();
-            $order->order_number = $order->generateOrderNumber();
+            $order->order_number = Order::generateOrderNumber();
             $order->user_id = $userId;
             $order->order_status_id = 1;
             $order->total_price = $totalPrice;

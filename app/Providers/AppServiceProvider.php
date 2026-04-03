@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         view()->composer('*', function ($view) {
 
-            $categories = Category::whereNull('parent_id')->with('children')->get();
+            $categories = Category::where("active",true)->whereNull('parent_id')->with('children')->get();
             if (auth()->check()) {
                 $likeCount = auth()->user()->likes()->count();
                 $cartCount = auth()->user()->carts()->first() ?

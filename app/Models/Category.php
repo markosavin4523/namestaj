@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $fillable = [
         'name',
         'parent_id',
-        'status',
         'slug',
     ];
     public function parent() : BelongsTo
@@ -40,8 +41,8 @@ class Category extends Model
             return "images/default.png";
         }
         $path = $this->image->path;
-        if (file_exists(public_path("storage/" . $path))) {
-            return "storage/" . $path;
+        if (file_exists(public_path("storage/images/" . $path))) {
+            return "storage/images/" . $path;
         }
         if (file_exists(public_path("images/categories/" . $path))) {
             return "images/categories/" . $path;

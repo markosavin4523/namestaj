@@ -1,4 +1,4 @@
-@props(["o","statuses"]);
+@props(["o","statuses"])
 <tr>
     <td>
         <div>

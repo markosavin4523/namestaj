@@ -40,7 +40,7 @@ class Order extends Model
             ->withTimestamps();
     }
 
-    public function generateOrderNumber(): string
+    public static function generateOrderNumber(): string
     {
         $orderNumber = "ORD-".strtoupper(Str::random(10));
         if (Order::where('order_number', $orderNumber)->exists()) {

@@ -28,11 +28,6 @@ return [
             'icon'=>'bi bi-book',
             'route'=>'profile-orders-history.index',
         ],
-        [
-            'name'=>'Brisanje naloga',
-            'icon'=>'bi bi-trash',
-            'route'=>'profile-delete.index',
-        ],
 
 
     ]

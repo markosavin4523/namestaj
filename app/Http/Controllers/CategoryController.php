@@ -84,7 +84,7 @@ class CategoryController extends Controller
             });
         }
 
-        $products = $query->paginate(12);
+        $products = $query->where("quantity", ">", 0)->paginate(12);
         $data['products'] = $products;
         $data['subcategory'] = $subcategory;
         $data['request'] = $request;

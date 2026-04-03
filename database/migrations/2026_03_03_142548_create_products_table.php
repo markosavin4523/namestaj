@@ -19,10 +19,12 @@ return new class extends Migration
             $table->integer('quantity');
             $table->decimal('price', 10, 2);
             $table->foreignid('category_id')
+                ->nullable()
                 ->constrained()
-                ->cascadeOnDelete();
+                ->onDelete('set null');
             $table->foreignid('user_id')
                 ->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
