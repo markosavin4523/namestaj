@@ -35,6 +35,7 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->name("admin.")->grou
     Route::get('/korisnici',[AdminUserController::class,"index"])->name('users.index');
     Route::get('/aktivnosti-korisnika',[AdminPageController::class,"activityIndex"])->name('activity.index');
     Route::patch('/korisnik/uloga/{id}',[AdminUserController::class,"roleUpdate"])->name('role.update');
+    Route::patch('/korisnik/status/{id}',[AdminUserController::class,"statusUpdate"])->name('status.update');
 
     Route::resource('/kategorije', AdminCategoryController::class)->names('categories');
     Route::get("/dohvati-podkategorije/{id}", [AdminCategoryController::class, "children"])->name("categories.children");

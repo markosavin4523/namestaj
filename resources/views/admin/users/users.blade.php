@@ -72,7 +72,15 @@
                                 </form>
                             </td>
                             <td>
-                                <div>{{ $u->status ? "Aktivan" : "Neaktivan"}}</div>
+                                <form action="{{ route("admin.status.update",["id"=>$u->id]) }}" method="POST" class="d-flex flex-row">
+                                    @csrf
+                                    @method("patch")
+                                    <select name="status" class="form-select col-6">
+                                        <option value="0" {{ $u->status==0 ? "selected" : "" }}>Banovan</option>
+                                        <option value="1" {{ $u->status==1 ? "selected" : "" }}>Aktivan</option>
+                                    </select>
+                                    <button class="btn btn-primary"><i class="fa fa-check"></i></button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

@@ -15,7 +15,12 @@ class AuthController extends Controller
         try{
             $fields = $request->validated();
             if(Auth::attempt($fields)){
+                if (auth()->user()->status == 0) {
+                    Auth::logout();
+                    return back()->with('error', 'Vaš nalog je banovan. Kontaktirajte podršku.');
+                }
                 if (auth()->user()->role_id == 1) {
+
                     return redirect()->route('admin.home.index');
                 }
                 return redirect()->route('home.index')->with('success', 'Uspesno ste se ulogovali');
