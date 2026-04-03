@@ -65,6 +65,6 @@ class Product extends Model
         if (!$this->image) {
             return "images/default.png";
         }
-        return "storage/".$this->image->path;
+        return "storage/images/".$this->image->path;
     }
 }

@@ -18,22 +18,28 @@
             </a>
         </div>
 
-        <div class="row g-3 mb-4">
+        <form action="{{ route("admin.products.index") }}" method="GET" class="row g-3 mb-4">
             <div class="col-md-4">
                 <div class="input-group shadow-sm">
                     <span class="input-group-text bg-white border-0"><i class="bi bi-search text-muted"></i></span>
-                    <input type="text" class="form-control border-0 py-2" placeholder="Pretraži po nazivu ili šifri...">
+                    <input type="text" name="name" class="form-control border-0 py-2" placeholder="Pretraži po nazivu ...">
                 </div>
             </div>
             <div class="col-md-3">
-                <select class="form-select border-0 shadow-sm py-2">
+                <select name="category" class="form-select border-0 shadow-sm py-2">
                     <option value="">Sve Kategorije</option>
                     @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                        <option value="{{ $cat->id }}" disabled>{{ $cat->name }}</option>
+                        @foreach($cat->children as $child)
+                            <option class="ms-2" value="{{ $child->id }}">{{ $child->name }}</option>
+                        @endforeach
                     @endforeach
                 </select>
             </div>
-        </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary">Pretrazi</button>
+            </div>
+        </form>
 
         <div class="bg-white rounded-4 shadow-sm overflow-hidden">
             <table class="table table-hover align-middle mb-0">
@@ -73,9 +79,13 @@
                                 <span class="text-dark">{{ $product->quantity }} kom.</span>
                             @endif
                         </td>
-                        <td class="pe-4 text-end">
-                            <button>Obrisi</button>
-                            <button>Izmeni</button>
+                        <td class="text-end pe-3">
+                            <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-link btn-sm text-secondary p-0 me-2">Izmeni</a>
+                            <form action="{{ route('admin.products.quantityUpdate', $product->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('patch')
+                                <button class="btn btn-link btn-sm text-danger p-0" onclick="return confirm('Ukloni sa stanja?')">Ukloni</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

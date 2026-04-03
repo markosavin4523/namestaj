@@ -8,6 +8,10 @@
 <x-pages.pop-up-message msg="{{ session ('success') }}" type="success"/>
     @include("common.header")
     <main class="flex-grow-1">
+        <div id="loader-wrapper">
+            <div class="loader"></div>
+            <p>Učitavanje...</p>
+        </div>
         @yield('content')
     </main>
 

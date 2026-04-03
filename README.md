@@ -64,6 +64,7 @@ npm install
 npm install bootstrap
 npm install bootstrap-icons
 npm install jQuery
+npm install sweetalert2
 npm run dev
 php artisan serve
 php artisan adminlte:install

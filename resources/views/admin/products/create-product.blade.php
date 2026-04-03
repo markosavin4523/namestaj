@@ -41,10 +41,10 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label small text-uppercase fw-bold text-muted">Glavna Kategorija</label>
-                                <select id="main_category" class="form-select">
+                                <select id="main_category" class="form-select" name="main">
                                     <option value="0">Izaberi glavnu...</option>
                                     @foreach($mainCategories as $main)
-                                        <option value="{{ $main->id }}">{{ $main->name }}</option>
+                                        <option value="{{ $main->id }}" {{ old("main")==$main->id ? "selected" : "" }}>{{ $main->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -52,9 +52,12 @@
                                 <label class="form-label small text-uppercase fw-bold text-muted">Podkategorija</label>
                                 <select name="category_id" id="sub_category" class="form-select @error('category_id') is-invalid @enderror">
                                     <option value="">Prvo izaberi glavnu...</option>
-                                    <div id="subcategory-options">
-
-                                    </div>
+                                    <optgroup id="subcategory-options">
+                                        @foreach($childCategories as $cat)
+                                            <option value="{{ $cat->id }}" class="d-none parent{{$cat->parent_id}}"
+                                            {{ old("category_id")==$cat->id ? "selected" : "" }}>{{$cat->name}}</option>
+                                        @endforeach
+                                    </optgroup>
                                 </select>
                                 @error("category_id")
                                 <p class="red-color">{{$message}}</p>
@@ -112,7 +115,7 @@
                         </div>
                         <div class="mb-4">
                             <label class="form-label small text-uppercase fw-bold text-muted">Količina na zalihama</label>
-                            <input type="number" name="quantity" class="form-control" value="{{ old('stock', 0) }}">
+                            <input type="number" name="quantity" class="form-control" value="{{ old('quantity') }}">
                             @error("quantity")
                             <p class="red-color">{{$message}}</p>
                             @enderror
@@ -127,13 +130,10 @@
                             <p class="red-color">{{$message}}</p>
                             @enderror
                         </div>
-                        <div id="imagePreview" class="rounded-3 bg-light d-flex align-items-center justify-content-center border-dashed" style="height: 200px; border: 2px dashed #dee2e6;">
-                            <span class="text-muted small">Pregled slike će se pojaviti ovde</span>
-                        </div>
                     </div>
 
                     <div class="d-grid gap-2 mt-4">
-                        <button type="submit" class="btn btn-dark btn-lg rounded-3">Objavi Proizvod</button>
+                        <button type="submit" class="btn btn-dark btn-lg rounded-3">Kreiraj proizvod</button>
                         <a href="{{ route('admin.products.index') }}" class="btn btn-link text-decoration-none text-muted">Otkaži</a>
                     </div>
                 </div>

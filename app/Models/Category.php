@@ -41,8 +41,8 @@ class Category extends Model
             return "images/default.png";
         }
         $path = $this->image->path;
-        if (file_exists(public_path("storage/" . $path))) {
-            return "storage/" . $path;
+        if (file_exists(public_path("storage/images/" . $path))) {
+            return "storage/images/" . $path;
         }
         if (file_exists(public_path("images/categories/" . $path))) {
             return "images/categories/" . $path;

@@ -3,6 +3,11 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+$(window).on('load', function() {
+    $('#loader-wrapper').fadeOut('slow', function() {
+        $(this).remove();
+    });
+});
 $(document).ready(function (){
 
     //Dropwdown profile menu
@@ -37,6 +42,13 @@ $(document).ready(function (){
             success: function(response) {
                 if(response.status === 'liked') {
                     btn.addClass('bi-heart-fill').removeClass('bi-heart');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sacuvali ste proizvod!',
+                        text: response.success,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
                 } else {
                     btn.addClass('bi-heart').removeClass('bi-heart-fill');
                 }
@@ -69,7 +81,13 @@ $(document).ready(function (){
             },
             success: function(response) {
                 $('#cart-count').text(response.count);
-                alert(response.success);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Uspešno!',
+                    text: response.success,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
 
             },
             error: function (xhr){
@@ -94,31 +112,62 @@ $(document).ready(function (){
         }
     })
 
-    //admin panel
-
     //category dropdown list
+
+    function loadCategoryDropdown(){
+        let id = $("#main_category").val();
+        let options = $("#subcategory-options option");
+        options.addClass("d-none");
+        $(`.parent${id}`).removeClass("d-none");
+
+    }
+    loadCategoryDropdown();
     $("#main_category").on("change",function (){
-        let id = $(this).val();
-        let options = $("#subcategory-options");
-        let url = `/admin/dohvati-podkategorije/${id}`;
-        let html = "";
-        options.html(html);
-        $.ajax({
-            url: url,
-            method: "get",
-            success: function (success) {
-                console.log(success.children)
-                for( let i=0;i < success.children.length; i++){
-                    html+=`<option value="${success.children[i].id}">${success.children[i].name}</option>`;
-                }
-                console.log(success.children.length);
-                options.html(html);
-            },
-            error: function (xhr){
-                console.log(xhr.message)
-            }
-        })
+        loadCategoryDropdown();
+        $("#sub_category").val("");
     });
+
+    $('#updateQuantityBtn').on("click",function (){
+        let value = $("#addToQuantity").val();
+        let quantity = $("#updateQuantity");
+
+        quantity.val(Number(quantity.val()) + Number(value));
+        $("#addToQuantity").val("");
+    });
+
+    //Reviews
+
+    let selectedRating = 0;
+    $('.star').on('mouseenter', function () {
+        const rating = $(this).data('value');
+        updateStars(rating);
+    });
+
+    $('.star').on('mouseleave', function () {
+        updateStars(selectedRating);
+    });
+
+    $('.star').on('click', function () {
+        selectedRating = $(this).data('value');
+        $('#rating').val(selectedRating);
+        updateStars(selectedRating);
+    });
+
+    function updateStars(rating) {
+        $('.star').each(function () {
+            const value = $(this).data('value');
+            if (value <= rating) {
+                $(this)
+                    .removeClass('bi-star')
+                    .addClass('bi-star-fill');
+            } else {
+                $(this)
+                    .removeClass('bi-star-fill')
+                    .addClass('bi-star');
+            }
+        });
+    }
+
 })
 
 

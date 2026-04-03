@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AdminCategoryController extends Controller
@@ -16,7 +19,7 @@ class AdminCategoryController extends Controller
     {
         $parentCategories = Category::where("parent_id", null)->with("children")->paginate(3);
         $data['parentCategories'] = $parentCategories;
-        return view('admin.categories', $data);
+        return view('admin.categories.categories', $data);
     }
 
     public function children($id)
@@ -39,8 +42,10 @@ class AdminCategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
         try {
+            DB::beginTransaction();
             $category = new Category();
             $category->parent_id = $request->parent_id;
 
@@ -57,10 +62,27 @@ class AdminCategoryController extends Controller
             $category->slug =$slug;
             $category->name = $name;
             $category->save();
+
+            if ($request->hasFile("image"))
+            {
+                $image = new Image();
+                $file = $request->file('image');
+                $fileName = $file->store('images', 'public');
+                $fileName = explode("/", $fileName)[1];
+
+                $image->path = $fileName;
+                $image->alt = $fileName;
+                $image->category_id = $category->id;
+                $image->save();
+            }
+
+
+            DB::commit();
             return back()->with("success", "Uspsno dodata kategorija!");
         }
         catch (\Exception $exception)
         {
+            DB::rollBack();
             return back()->with("error", $exception->getMessage());
         }
 
@@ -82,7 +104,7 @@ class AdminCategoryController extends Controller
     public function edit(string $id)
     {
         $category = Category::findOrFail($id);
-        return view('admin.updateCategory', compact('category'));
+        return view('admin.categories.updateCategory', compact('category'));
     }
 
     /**
@@ -91,6 +113,7 @@ class AdminCategoryController extends Controller
     public function update(UpdateCategoryRequest $request, string $id)
     {
         try {
+            DB::beginTransaction();
             $cat = Category::findOrFail($id);
             if ($request->parent_id == $cat->id) {
                 return back()->with("error", "Kategorija ne moze da pripada samoj sebi!");
@@ -98,10 +121,40 @@ class AdminCategoryController extends Controller
             $cat->parent_id =$request->parent_id;
             $cat->name = $request->name;
             $cat->save();
+
+            if ($request->hasFile('image')) {
+                $oldImage = $cat->image;
+
+                if ($oldImage && Storage::disk('public')->exists('images/' . $oldImage->path)) {
+                    Storage::disk('public')->delete('images/' . $oldImage->path);
+                }
+
+                $file = $request->file('image');
+                $fileName = $file->store('images', 'public');
+                $fileName = explode("/", $fileName)[1];
+
+                if ($oldImage)
+                {
+                    $oldImage->path = $fileName;
+                    $oldImage->alt = $fileName;
+                    $oldImage->save();
+                }
+                else{
+                    $image = new Image();
+                    $image->path = $fileName;
+                    $image->alt = $fileName;
+                    $image->category_id_id = $cat->id;
+                    $image->save();
+
+                }
+
+            }
+            DB::commit();
             return redirect()->route("admin.categories.index")->with("success", "Uspesno izmenjena kategorija!");
         }
         catch (\Exception $exception)
         {
+            DB::rollBack();
             return back()->with("error", $exception->getMessage());
         }
 

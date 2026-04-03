@@ -56,7 +56,7 @@
                                 <form action="{{ route("admin.cities.destroy",$c->id) }}" method="POST">
                                     @csrf
                                     @method("delete")
-                                    <button class="btn btn-danger" onclick="return confirm('Obriši grad?')">Obrisi </button>
+                                    <button class="btn btn-link btn-sm text-danger p-0" onclick="return confirm('Obriši grad?')">Obrisi </button>
                                 </form>
                             </td>
                         </tr>

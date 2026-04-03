@@ -31,12 +31,12 @@ class AdminOrderController extends Controller
         }
         $orders = $query->orderBy('order_status_id')->paginate(10);
 
-        return view('admin.orders', compact('orders','request','statuses'));
+        return view('admin.orders.orders', compact('orders','request','statuses'));
     }
     public function statusesIndex()
     {
         $statuses = OrderStatus::paginate(10);
-        return view('admin.order-status', compact('statuses'));
+        return view('admin.orders.order-status', compact('statuses'));
     }
 
     public function statusesStore(Request $request)

@@ -28,6 +28,7 @@ class UpdateCategoryRequest extends FormRequest
                 "string",
                 Rule::unique('categories', 'name')->ignore($this->kategorije)
             ],
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             "parent_id"=>"nullable|numeric",
         ];
     }

@@ -16,13 +16,21 @@
                 <div class="mb-5">
                     <h2 class="h3 fw-bold mb-1">Podešavanja kategorije</h2>
                 </div>
+                <p class="m-0">Slika kategorije:</p>
+                <img src="{{asset($category->image_path)}}" alt="" class="w-50 rounded m-2" >
 
-                <form action="{{ route('admin.categories.update', $category) }}" method="POST" class="needs-validation">
+                <form action="{{ route('admin.categories.update', $category) }}" method="POST" class="needs-validation" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-
                     <div class="row g-4">
                         <div class="col-md-7">
+                            <div class="mb-4">
+                                <label for="">Nova slika</label>
+                                <input type="file" name="image" id="" class="form-control form-control-lg">
+                                @error("image")
+                                <p class="red-color">{{ $message }}</p>
+                                @enderror
+                            </div>
                             <div class="mb-4">
                                 <label class="form-label small text-uppercase fw-bold text-muted">Naziv kategorije</label>
                                 <input type="text" name="name"

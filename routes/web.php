@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\AdminContactController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -46,6 +47,7 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->name("admin.")->grou
     Route::post('/kreiraj-proizvod', [AdminProductController::class,"store"])->name('product.store');
 
     Route::resource('/proizvodi', AdminProductController::class)->names('products');
+    Route::patch('/proizvodi/{id}/ukloni-sa-stanja', [AdminProductController::class,"quantityUpdate"])->name('products.quantityUpdate');
 
     Route::get('/statusi-porudzbina', [AdminOrderController::class,"statusesIndex"])->name('orderStatuses.index');
     Route::post('/statusi-porudzbina', [AdminOrderController::class,"statusesStore"])->name('orderStatuses.store');
@@ -87,6 +89,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/moj-nalog/istorija-porudzbina',[OrderController::class,'indexHistory'])->name('profile-orders-history.index');
     //Acc delete
     Route::get('/moj-nalog/brisanje-naloga',[ProfileController::class,'indexDeleteAcc'])->name('profile-delete.index');
+    Route::post("/recenzije",[ReviewController::class,"store"])->name("review.store");
 
 });
 // product like
@@ -112,5 +115,8 @@ Route::get('/sacuvani-proizvodi',[LikeController::class,'index'])->name('like.in
 Route::get("/proizvodi", [ProductController::class,'index'])->name('product.index');
 Route::get('/{category}/{subcategory?}',[CategoryController::class,'index'])->name('category.index');
 Route::get('/{category}/{subcategory}/{product}',[ProductController::class,'show'])->name('product.show');
+
+Route::get("/recenzije/proizvod/{productSlug}/sve-recenzije/",[ReviewController::class,"index"])->name("review.index");
+
 
 

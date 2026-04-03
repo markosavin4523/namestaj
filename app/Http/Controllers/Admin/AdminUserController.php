@@ -24,7 +24,7 @@ class AdminUserController extends Controller
             ->orWhere("username","like",$request->email);
         }
         $users = $query->paginate(10);
-        return view('admin.users', compact('users','roles','request'));
+        return view('admin.users.users', compact('users','roles','request'));
     }
 
     /**

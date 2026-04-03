@@ -11,6 +11,11 @@
                 <p>
                     45/23
                 </p>
+                <p>
+                    Ja sam Marko Savin, student 3. godine na Visokoj ICT skoli.<br>
+                    Napravio sam online prodavnicu namestaja u Laravel frameworku. <br>
+
+                </p>
             </div>
         </div>
     </div>

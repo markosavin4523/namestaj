@@ -19,6 +19,7 @@ class ProductController extends Controller
             return back()->with("error","Unesite pojam za pretragu");
         }
         $products = Product::where('name', 'like', '%' . $term . '%')
+            ->where("quantity", ">", 0)
             ->orWhereHas('category', function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->term . '%');
             })
