@@ -366,6 +366,11 @@ return [
             'url' => 'admin/kategorije',
             'icon' => 'fas fa-fw fa-circle',
         ],
+        [
+            'text' => 'Vrati se na pocetnu',
+            'url' => '/',
+            'icon' => 'fas fa-arrow-left',
+        ],
 
     ],
 

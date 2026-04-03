@@ -75,7 +75,18 @@ class AdminUserController extends Controller
         }
         $user->role_id = $request->role;
         $user->save();
-        return back()->with("success","Uspesno ste izmijenili uloku korisniku");
+        return back()->with("success","Uspesno ste izmijenili ulogu korisniku");
+    }
+    public function statusUpdate(Request $request, string $id)
+    {
+        $user = User::where("id",$id)->firstOrFail();
+        if ($user->status == $request->status)
+        {
+            return back()->with("error","Korisnik vec ima izabrani status");
+        }
+        $user->status = $request->status;
+        $user->save();
+        return back()->with("success","Uspesno ste izmijenili status korisniku");
     }
 
     /**
